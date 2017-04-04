@@ -1,5 +1,7 @@
 #install.packages("data.table")
 library(data.table)
+#I use datatable despite of dataframe, i'm used to use it and it's easier for me, rules are differents but the the principle is the same for here
+#I transform the right column on numeric column and then i remove NA, find the right hospital(depend on the "num" parameter) and print it
 rankhospital <- function(state, outcome, num = "best") {
         r <- fread("outcome-of-care-measures.csv", colClasses = "character")
         states <- unique(r$State)
@@ -24,10 +26,12 @@ rankhospital <- function(state, outcome, num = "best") {
                         return(NA)
         }else if (is.character(num) == TRUE){
                 if (num == "best") {
-                        num = 1
+                        num2 = 1
                 }else if (num == "worst") {
-                        num = length(r[[colname]])
+                        t<-substitute(r$X, list(X=colname))
+                        num2 = length(r[,eval(t)])
                 }
+                return( r[num2,]$`Hospital Name`)
         }
         r[num,]$`Hospital Name`
 }

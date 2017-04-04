@@ -1,4 +1,6 @@
 library(data.table)
+#I use datatable despite of dataframe, i'm used to use it and it's easier for me, rules are differents but the the principle is the same for here
+#i transform the right column on numeric column and then i remove NA, find and return the hospital with the least number of deaths 
 best <- function(state, outcome) {
         r <- fread("outcome-of-care-measures.csv", colClasses = "character")
         states <- unique(r$State)
@@ -18,11 +20,8 @@ best <- function(state, outcome) {
         
         r[,colname] <- as.numeric(unlist(r[,colname,with=FALSE]))
         r<-na.omit(r)
-        
         t<-substitute(r$X, list(X=colname))
-        #r<-r[which(r[[colname]] == min(r[[colname]]))]
         r<-r[which(r[,eval(t)] == min(r[,eval(t)]))]
-        
         if(nrow(r)>1){
                 r <- sort(r)
                 r[1]$`Hospital Name` 

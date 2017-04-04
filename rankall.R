@@ -1,3 +1,7 @@
+#install.packages("data.table")
+library(data.table)
+#I use datatable despite of dataframe, i'm used to use it and it's easier for me, rules are differents but the the principle is the same for here
+#I transform the right column on numeric column and then i remove NA, for each State, i find the right hospital(depend on the "num" parameter) and i print it
 rankall <- function(outcome, num = "best") {
         r2 <- fread("outcome-of-care-measures.csv", colClasses = "character")
         setkey(r2,State)
